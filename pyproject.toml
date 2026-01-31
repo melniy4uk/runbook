@@ -1,0 +1,70 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "runbook"
+version = "0.1.0"
+description = "TUI-утилита для запуска сценариев команд из YAML"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+  "pyyaml>=6.0",
+  "textual>=0.52.1",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=7.4",
+  "ruff>=0.4.8",
+  "pyright>=1.1.350",
+]
+
+[project.scripts]
+runbook = "runbook.cli.main:main"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 80
+target-version = "py312"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "RUF"]
+ignore = []
+
+[tool.ruff.lint.isort]
+known-first-party = ["runbook"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+pythonpath = ["src"]
+
+[tool.pyright]
+include = ["src", "tests"]
+exclude = [
+  "**/__pycache__",
+  "**/.pytest_cache",
+  ".ruff_cache",
+  ".venv",
+  "dist",
+  "build",
+]
+venv = ".venv"
+typeCheckingMode = "standard"
+reportMissingTypeStubs = "warning"
+reportUnknownMemberType = "error"
+reportUnknownVariableType = "error"
+reportUnknownArgumentType = "error"
+reportUnknownParameterType = "error"
+reportUnknownLambdaType = "error"
+pythonVersion = "3.12"
+executionEnvironments = [
+  { root = ".", extraPaths = ["src"] },
+]
